@@ -77,5 +77,5 @@ BR2_PACKAGE_WEBRTC_AUDIO_PROCESSING=y
 
 # Hardware module triggers
 # These ensure the buildroot package pulls in the SigmaStar-specific source files
-BR2_PACKAGE_BARESIP_OPENIPC_AUDIO=y
-BR2_PACKAGE_BARESIP_OPENIPC_VIDEO=y
+# BR2_PACKAGE_BARESIP_OPENIPC_AUDIO=y
+# BR2_PACKAGE_BARESIP_OPENIPC_VIDEO=y
