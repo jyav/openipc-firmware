@@ -20,10 +20,10 @@ define BARESIP_OPENIPC_INSTALL_CONF
 	$(INSTALL) -m 755 -d $(TARGET_DIR)/etc/init.d
 	$(INSTALL) -m 755 -t $(TARGET_DIR)/etc/init.d $(BARESIP_OPENIPC_PKGDIR)/files/S97baresip
 
-#	$(INSTALL) -m 755 -d $(TARGET_DIR)/etc/baresip
-#	$(INSTALL) -m 644 -t $(TARGET_DIR)/etc/baresip $(BARESIP_OPENIPC_PKGDIR)/files/accounts
-#	$(INSTALL) -m 644 -t $(TARGET_DIR)/etc/baresip $(BARESIP_OPENIPC_PKGDIR)/files/config
-#	$(INSTALL) -m 644 -t $(TARGET_DIR)/etc/baresip $(BARESIP_OPENIPC_PKGDIR)/files/contacts
+	$(INSTALL) -m 755 -d $(TARGET_DIR)/etc/baresip
+	$(INSTALL) -m 644 -t $(TARGET_DIR)/etc/baresip $(BARESIP_OPENIPC_PKGDIR)/files/accounts
+	$(INSTALL) -m 644 -t $(TARGET_DIR)/etc/baresip $(BARESIP_OPENIPC_PKGDIR)/files/config
+	$(INSTALL) -m 644 -t $(TARGET_DIR)/etc/baresip $(BARESIP_OPENIPC_PKGDIR)/files/contacts
 
 	cp $(@D)/docs/examples/accounts $(TARGET_DIR)/etc/baresip/accounts.orig
 	cp $(@D)/docs/examples/config $(TARGET_DIR)/etc/baresip/config.orig
