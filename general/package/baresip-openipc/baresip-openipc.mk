@@ -25,9 +25,9 @@ define BARESIP_OPENIPC_INSTALL_CONF
 	$(INSTALL) -m 644 -t $(TARGET_DIR)/etc/baresip $(BARESIP_OPENIPC_PKGDIR)/files/config
 	$(INSTALL) -m 644 -t $(TARGET_DIR)/etc/baresip $(BARESIP_OPENIPC_PKGDIR)/files/contacts
 
-	cp $(@D)/docs/examples/accounts $(TARGET_DIR)/etc/baresip/accounts.orig
-	cp $(@D)/docs/examples/config $(TARGET_DIR)/etc/baresip/config.orig
-	cp $(@D)/docs/examples/contacts $(TARGET_DIR)/etc/baresip/contacts.orig
+#	cp $(@D)/docs/examples/accounts $(TARGET_DIR)/etc/baresip/accounts.orig
+#	cp $(@D)/docs/examples/config $(TARGET_DIR)/etc/baresip/config.orig
+#	cp $(@D)/docs/examples/contacts $(TARGET_DIR)/etc/baresip/contacts.orig
 
 	$(INSTALL) -m 755 -d $(TARGET_DIR)/usr/bin
 	$(INSTALL) -m 755 -t $(TARGET_DIR)/usr/bin $(BARESIP_OPENIPC_PKGDIR)/files/dtmf_0.sh
