@@ -35,6 +35,10 @@ BARESIP_OPENIPC_CONF_OPTS = \
 define BARESIP_OPENIPC_INSTALL_CONF
 	$(INSTALL) -m 755 -d $(TARGET_DIR)/etc/init.d
 	$(INSTALL) -m 755 -t $(TARGET_DIR)/etc/init.d $(BARESIP_OPENIPC_PKGDIR)/files/S97baresip
+
+  # Add this line to deploy the audio broker daemon:
+	$(INSTALL) -m 755 -t $(TARGET_DIR)/etc/init.d $(BARESIP_OPENIPC_PKGDIR)/files/S98audiopipe
+
 	$(INSTALL) -m 755 -d $(TARGET_DIR)/etc/baresip
 	$(INSTALL) -m 644 -t $(TARGET_DIR)/etc/baresip $(BARESIP_OPENIPC_PKGDIR)/files/accounts
 	$(INSTALL) -m 644 -t $(TARGET_DIR)/etc/baresip $(BARESIP_OPENIPC_PKGDIR)/files/config
