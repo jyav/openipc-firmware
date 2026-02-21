@@ -8,17 +8,18 @@ BARESIP_OPENIPC_SITE = $(call github,baresip,baresip,$(BARESIP_OPENIPC_VERSION))
 BARESIP_OPENIPC_VERSION = v3.14.0
 
 # --- Custom Module Injection ---
-# Create the module directory, copy our local C file, and append it to Baresip's CMake configuration.
 define BARESIP_OPENIPC_INJECT_AUPIPE
 	mkdir -p $(@D)/modules/aupipe
 	cp $(BARESIP_OPENIPC_PKGDIR)/files/aupipe.c $(@D)/modules/aupipe/
 	
-	# Create a localized CMakeLists.txt for the module
-	echo 'set(MODULE_NAME aupipe)' > $(@D)/modules/aupipe/CMakeLists.txt
-	echo 'set(MODULE_SRCS aupipe.c)' >> $(@D)/modules/aupipe/CMakeLists.txt
-	echo 'baresip_add_module($${MODULE_NAME} $${MODULE_SRCS})' >> $(@D)/modules/aupipe/CMakeLists.txt
+	# Generate a Baresip 3.x compliant CMakeLists for the custom module
+	echo 'project(aupipe)' > $(@D)/modules/aupipe/CMakeLists.txt
+	echo 'list(APPEND MODULES_DETECTED $${PROJECT_NAME})' >> $(@D)/modules/aupipe/CMakeLists.txt
+	echo 'set(MODULES_DETECTED $${MODULES_DETECTED} PARENT_SCOPE)' >> $(@D)/modules/aupipe/CMakeLists.txt
+	echo 'add_library($${PROJECT_NAME} MODULE aupipe.c)' >> $(@D)/modules/aupipe/CMakeLists.txt
+	echo 'install(TARGETS $${PROJECT_NAME} DESTINATION lib/baresip/modules)' >> $(@D)/modules/aupipe/CMakeLists.txt
 	
-	# Instruct Baresip's main module CMakeLists to parse our new folder
+	# Inject it into the main build loop
 	echo 'add_subdirectory(aupipe)' >> $(@D)/modules/CMakeLists.txt
 endef
 
@@ -32,14 +33,7 @@ BARESIP_OPENIPC_CONF_OPTS = \
     -DCMAKE_C_FLAGS_RELEASE="-DNDEBUG -s" \
     -DUSE_MBEDTLS=ON \
     -DWEBRTC_AEC_INCLUDE_DIR=$(WEBRTC_AUDIO_PROCESSING_OPENIPC_DIR) \
-    -DMOSQUITTO_INCLUDE_DIR=$(MOSQUITTO_DIR) \
-    -DMODULE_G711=ON \
-    -DMODULE_OPUS=ON \
-    -DMODULE_V4L2=ON \
-    -DMODULE_ALSA=ON \
-    -DMODULE_AVFORMAT=ON \
-    -DMODULE_AVCODEC=ON\
-    -DMODULE_AUPIPE=ON
+    -DMOSQUITTO_INCLUDE_DIR=$(MOSQUITTO_DIR)
 
 define BARESIP_OPENIPC_INSTALL_CONF
 	$(INSTALL) -m 755 -d $(TARGET_DIR)/etc/init.d
