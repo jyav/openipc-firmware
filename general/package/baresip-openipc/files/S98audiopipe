@@ -1,0 +1,58 @@
+#!/bin/sh
+# /etc/init.d/S98audiopipe
+# OpenIPC Zero-Latency Audio Broker: Baresip FIFO -> Majestic VQE API
+
+PIPE="/tmp/majestic_speaker.pcm"
+URL="http://127.0.0.1/api/v1/speaker"
+
+start() {
+    echo "Starting Hardware Audio Pipe Broker..."
+    
+    # 1. Pre-emptively create the FIFO to prevent race conditions 
+    # between Baresip's C-module and the tail command.
+    if [ ! -p "$PIPE" ]; then
+        mkfifo -m 0666 "$PIPE"
+    fi
+
+    # 2. Launch the chunked transfer loop in the background.
+    # tail -c +0 -f  : Starts reading the pipe instantly and follows it.
+    # curl -T -      : Takes stdin and POSTs it.
+    # chunked        : Bypasses Content-Length headers and streams raw bytes instantly.
+    (
+        while true; do
+            tail -c +0 -f "$PIPE" | curl -s -X POST -T - -H "Transfer-Encoding: chunked" "$URL" > /dev/null 2>&1
+            sleep 1
+        done
+    ) &
+    
+    # Save the subshell PID for clean teardown
+    echo $! > /var/run/audiopipe.pid
+}
+
+stop() {
+    echo "Stopping Hardware Audio Pipe Broker..."
+    if [ -f /var/run/audiopipe.pid ]; then
+        kill $(cat /var/run/audiopipe.pid) 2>/dev/null
+        rm /var/run/audiopipe.pid
+    fi
+    # Brutally terminate the IPC tools
+    killall tail curl 2>/dev/null
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        stop
+        sleep 1
+        start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+        ;;
+esac
