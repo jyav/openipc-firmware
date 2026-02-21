@@ -5,7 +5,7 @@
 #############################################################
 
 BARESIP_OPENIPC_SITE = $(call github,baresip,baresip,$(BARESIP_OPENIPC_VERSION))
-BARESIP_OPENIPC_VERSION = v3.14.01
+BARESIP_OPENIPC_VERSION = v3.15.0
 
 BARESIP_OPENIPC_DEPENDENCIES = libre-openipc librem-openipc mbedtls webrtc-audio-processing-openipc mosquitto ffmpeg-openipc alsa-lib libv4l
 
