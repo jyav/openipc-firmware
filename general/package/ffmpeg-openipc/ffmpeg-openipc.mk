@@ -8,13 +8,15 @@ FFMPEG_OPENIPC_VERSION = 4.4.2
 FFMPEG_OPENIPC_SOURCE = ffmpeg-$(FFMPEG_OPENIPC_VERSION).tar.xz
 FFMPEG_OPENIPC_SITE = http://ffmpeg.org/releases
 
-FFMPEG_OPENIPC_INSTALL_STAGING = NO
+FFMPEG_OPENIPC_INSTALL_STAGING = YES
 
 FFMPEG_OPENIPC_LICENSE = LGPL-2.1+, libjpeg license
 FFMPEG_OPENIPC_LICENSE_FILES = LICENSE.md COPYING.LGPLv2.1
 
 FFMPEG_OPENIPC_CONF_OPTS = \
   --prefix=/usr \
+  --enable-shared \
+  --enable-pic \
   --disable-everything \
   --disable-x86asm --disable-w32threads --disable-os2threads --disable-alsa --disable-appkit \
   --disable-avfoundation --disable-bzlib --disable-coreimage --disable-iconv --disable-libxcb \
