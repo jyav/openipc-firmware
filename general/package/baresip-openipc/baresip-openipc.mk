@@ -7,6 +7,24 @@
 BARESIP_OPENIPC_SITE = $(call github,baresip,baresip,$(BARESIP_OPENIPC_VERSION))
 BARESIP_OPENIPC_VERSION = v3.14.0
 
+# --- Custom Module Injection ---
+# Create the module directory, copy our local C file, and append it to Baresip's CMake configuration.
+define BARESIP_OPENIPC_INJECT_AUPIPE
+	mkdir -p $(@D)/modules/aupipe
+	cp $(BARESIP_OPENIPC_PKGDIR)/files/aupipe.c $(@D)/modules/aupipe/
+	
+	# Create a localized CMakeLists.txt for the module
+	echo 'set(MODULE_NAME aupipe)' > $(@D)/modules/aupipe/CMakeLists.txt
+	echo 'set(MODULE_SRCS aupipe.c)' >> $(@D)/modules/aupipe/CMakeLists.txt
+	echo 'baresip_add_module($${MODULE_NAME} $${MODULE_SRCS})' >> $(@D)/modules/aupipe/CMakeLists.txt
+	
+	# Instruct Baresip's main module CMakeLists to parse our new folder
+	echo 'add_subdirectory(aupipe)' >> $(@D)/modules/CMakeLists.txt
+endef
+
+# Hook this injection to run immediately after the 0001 and 0002 patches are applied
+BARESIP_OPENIPC_POST_PATCH_HOOKS += BARESIP_OPENIPC_INJECT_AUPIPE
+
 BARESIP_OPENIPC_DEPENDENCIES = libre-openipc mbedtls-openipc webrtc-audio-processing-openipc mosquitto ffmpeg-openipc alsa-lib libv4l
 
 BARESIP_OPENIPC_CONF_OPTS = \
