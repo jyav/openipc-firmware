@@ -35,7 +35,7 @@ define BARESIP_OPENIPC_INSTALL_CONF
 	ln -sf dtmf_0.sh $(TARGET_DIR)/usr/bin/dtmf_2.sh
 	ln -sf dtmf_0.sh $(TARGET_DIR)/usr/bin/dtmf_3.sh
 	$(INSTALL) -m 755 -d $(TARGET_DIR)/usr/lib/sounds
-	$(INSTALL) -m 755 -t $(TARGET_DIR)/usr/lib/sounds $(BARESIP_OPENIPC_PKGDIR)/files/ok_8k.pcm
+#	$(INSTALL) -m 755 -t $(TARGET_DIR)/usr/lib/sounds $(BARESIP_OPENIPC_PKGDIR)/files/ok_8k.pcm
 	$(INSTALL) -m 755 -d $(TARGET_DIR)/usr/share/baresip
 endef
 
