@@ -7,7 +7,7 @@
 BARESIP_OPENIPC_SITE = $(call github,baresip,baresip,$(BARESIP_OPENIPC_VERSION))
 BARESIP_OPENIPC_VERSION = v3.14.0
 
-BARESIP_OPENIPC_DEPENDENCIES = libre-openipc mbedtls webrtc-audio-processing-openipc mosquitto ffmpeg-openipc alsa-lib libv4l
+BARESIP_OPENIPC_DEPENDENCIES = libre-openipc mbedtls-openipc webrtc-audio-processing-openipc mosquitto ffmpeg-openipc alsa-lib libv4l
 
 BARESIP_OPENIPC_CONF_OPTS = \
     -DCMAKE_BUILD_TYPE=Release \
