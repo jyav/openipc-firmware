@@ -14,27 +14,26 @@ FFMPEG_OPENIPC_LICENSE = LGPL-2.1+, libjpeg license
 FFMPEG_OPENIPC_LICENSE_FILES = LICENSE.md COPYING.LGPLv2.1
 
 FFMPEG_OPENIPC_CONF_OPTS = \
-	--prefix=/usr \
-	--disable-everything \
-	--disable-x86asm --disable-w32threads --disable-os2threads --disable-alsa --disable-appkit \
-	--disable-avfoundation --disable-bzlib --disable-coreimage --disable-iconv --disable-libxcb \
-	--disable-libxcb-shm --disable-libxcb-xfixes --disable-libxcb-shape --disable-lzma \
-	--disable-asm --disable-sndio --disable-sdl2 --disable-xlib --disable-zlib --disable-amf \
-	--disable-audiotoolbox --disable-cuda --disable-cuvid --disable-d3d11va --disable-dxva2 \
-	--disable-nvdec --disable-nvenc --disable-v4l2-m2m --disable-vaapi --disable-vdpau --disable-videotoolbox \
-	--disable-avdevice --disable-swscale --disable-postproc --disable-doc --disable-runtime-cpudetect \
-	--disable-bsfs --disable-iconv --disable-ffprobe --enable-gpl --enable-version3 --enable-pthreads \
-	\
-	--disable-swresample \
-	--disable-avdevice \
-	--disable-filters \
-	--disable-encoders \
-	--disable-decoders --enable-decoder=h264,hevc \
-	--disable-muxers --enable-muxer=flv,rtsp \
-	--disable-demuxers --enable-demuxer=h264,rtsp \
-	--disable-parsers --enable-parser=h264,hevc \
-	--disable-protocols --enable-protocol=file,rtmp,tcp \
-	--disable-programs --enable-ffmpeg --enable-small
+  --prefix=/usr \
+  --disable-everything \
+  --disable-x86asm --disable-w32threads --disable-os2threads --disable-alsa --disable-appkit \
+  --disable-avfoundation --disable-bzlib --disable-coreimage --disable-iconv --disable-libxcb \
+  --disable-libxcb-shm --disable-libxcb-xfixes --disable-libxcb-shape --disable-lzma \
+  --disable-asm --disable-sndio --disable-sdl2 --disable-xlib --disable-zlib --disable-amf \
+  --disable-audiotoolbox --disable-cuda --disable-cuvid --disable-d3d11va --disable-dxva2 \
+  --disable-nvdec --disable-nvenc --disable-v4l2-m2m --disable-vaapi --disable-vdpau --disable-videotoolbox \
+  --enable-avdevice --enable-swscale --disable-postproc --disable-doc --disable-runtime-cpudetect \
+  --disable-bsfs --disable-iconv --disable-ffprobe --enable-gpl --enable-version3 --enable-pthreads \
+  \
+  --enable-swresample \
+  --enable-avfilter \
+  --disable-encoders \
+  --disable-decoders --enable-decoder=h264,hevc \
+  --disable-muxers --enable-muxer=flv,rtsp \
+  --disable-demuxers --enable-demuxer=h264,rtsp \
+  --disable-parsers --enable-parser=h264,hevc \
+  --disable-protocols --enable-protocol=file,rtmp,tcp \
+  --disable-programs --enable-ffmpeg --enable-small
 
 
 FFMPEG_OPENIPC_DEPENDENCIES += host-pkgconf
