@@ -35,10 +35,12 @@ FFMPEG_OPENIPC_CONF_OPTS = \
   --disable-demuxers --enable-demuxer=h264,rtsp \
   --disable-parsers --enable-parser=h264,hevc \
   --disable-protocols --enable-protocol=file,rtmp,tcp \
-  --disable-programs --enable-ffmpeg --enable-small
+  --disable-programs --enable-ffmpeg --enable-small \
+  --enable-gpl \
+	--enable-libx264 \
+	--enable-encoder=libx264
 
-
-FFMPEG_OPENIPC_DEPENDENCIES += host-pkgconf
+FFMPEG_OPENIPC_DEPENDENCIES += host-pkgconf x264
 
 # Default to --cpu=generic for MIPS architecture, in order to avoid a
 # warning from ffmpeg's configure script.
