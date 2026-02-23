@@ -1,7 +1,6 @@
 --- a/modules/avcodec/encode.c
 +++ b/modules/avcodec/encode.c
-@@ -105,8 +105,8 @@
- 	encoder = avcodec_find_encoder(st->codec_id);
+@@ -106,6 +106,6 @@
  	if (!encoder) {
 -		warning("avcodec: %s: could not init encoder\n",
 -			avcodec_get_name(st->codec_id));
@@ -12,22 +11,12 @@
 +		ves->ctx = NULL;
 +		goto skip_context;
  	}
- 
- 	ves->ctx = avcodec_alloc_context3(encoder);
-@@ -116,6 +116,7 @@
- 		goto out;
- 	}
- 
+@@ -119,2 +119,3 @@
 +skip_context:
  	if (ves->ctx) {
  		ves->ctx->bit_rate = prm->bitrate;
- 		ves->ctx->width    = prm->width;
-@@ -241,6 +242,9 @@
- 
+@@ -241,2 +242,4 @@
  	if (!ves || !frame)
  		return EINVAL;
-+
 +	if (!ves->ctx)
 +		return 0;
- 
- 	if (update) {
