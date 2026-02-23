@@ -45,6 +45,11 @@ jobs:
           path: /tmp/ccache
           key: ${{matrix.platform}}-${{env.CACHE_DATE}}
 
+      - name: Force Clean Patch Generation
+        run: |
+          mkdir -p general/package/baresip-openipc/
+          printf -- "---\n+++ b/modules/avcodec/encode.c\n@@ -103,19 +103,20 @@\n \t}\n \n \tencoder = avcodec_find_encoder(st->codec_id);\n \tif (!encoder) {\n-\t\twarning(\"avcodec: %%s: could not init encoder\\\\n\",\n-\t\t\tavcodec_get_name(st->codec_id));\n-\t\terr = ENOENT;\n-\t\tgoto out;\n+\t\twarning(\"avcodec: %%s: bypass encoder for passthrough\\\\n\",\n+\t\t\tavcodec_get_name(st->codec_id));\n+\t\tves->ctx = NULL;\n+\t\tgoto skip_context;\n \t}\n \n \tves->ctx = avcodec_alloc_context3(encoder);\n \tif (!ves->ctx) {\n \t\terr = ENOMEM;\n \t\tgoto out;\n \t}\n \n+skip_context:\n \tif (ves->ctx) {\n \t\tves->ctx->bit_rate = prm->bitrate;\n \t\tves->ctx->width    = prm->width;\n@@ -239,6 +240,9 @@\n \tint err = 0;\n \n \tif (!ves || !frame)\n \t\treturn EINVAL;\n+\n+\tif (!ves->ctx)\n+\t\treturn 0;\n \n \tif (update) {" > general/package/baresip-openipc/0003-avcodec-bypass-encoder-check-for-passthrough.patch
+          
       - name: Build firmware
         run: |
           export GIT_HASH=$(git rev-parse --short ${GITHUB_SHA})
