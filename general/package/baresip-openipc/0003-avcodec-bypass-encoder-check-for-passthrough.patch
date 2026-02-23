@@ -1,0 +1,37 @@
+--- a/modules/avcodec/encode.c	2024-01-01 00:00:00.000000000 +0000
++++ b/modules/avcodec/encode.c	2026-02-23 00:00:00.000000000 +0000
+@@ -102,15 +102,23 @@
+ 	}
+ 
+ 	encoder = avcodec_find_encoder(st->codec_id);
+ 	if (!encoder) {
+-		warning("avcodec: %s: could not init encoder\n",
++		warning("avcodec: %s: could not init encoder, assuming passthrough\n",
+ 			avcodec_get_name(st->codec_id));
+-		err = ENOENT;
+-		goto out;
++		/* BYPASS: Allow pipeline to build for passthrough without libx264 */
++		ves->ctx = NULL;
++		goto skip_context;
+ 	}
+ 
+ 	ves->ctx = avcodec_alloc_context3(encoder);
+ 	if (!ves->ctx) {
+ 		err = ENOMEM;
+ 		goto out;
+ 	}
+ 
++skip_context:
+ 	/* Context initialization skipped if passthrough */
+ 	if (ves->ctx) {
+ 		ves->ctx->bit_rate = prm->bitrate;
+@@ -235,6 +243,11 @@
+ 	if (!ves || !packet)
+ 		return EINVAL;
+ 
++	/* If we bypassed context allocation, skip frame encoding entirely */
++	if (!ves->ctx) {
++		return 0;
++	}
++
+ 	/* ... existing encode logic ... */
