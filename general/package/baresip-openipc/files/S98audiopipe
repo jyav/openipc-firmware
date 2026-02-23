@@ -3,7 +3,7 @@
 # OpenIPC Zero-Latency Audio Broker: Baresip FIFO -> Majestic VQE API
 
 PIPE="/tmp/majestic_speaker.pcm"
-URL="http://127.0.0.1/api/v1/speaker"
+URL="http://127.0.0.1/play_audio"
 
 start() {
     echo "Starting Hardware Audio Pipe Broker..."
@@ -20,7 +20,7 @@ start() {
     # chunked        : Bypasses Content-Length headers and streams raw bytes instantly.
     (
         while true; do
-            tail -c +0 -f "$PIPE" | curl -s -X POST -T - -H "Transfer-Encoding: chunked" "$URL" > /dev/null 2>&1
+            tail -c +0 -f "$PIPE" | curl -u root:12345 -s -X POST -T - -H "Transfer-Encoding: chunked" "$URL" > /dev/null 2>&1
             sleep 1
         done
     ) &
