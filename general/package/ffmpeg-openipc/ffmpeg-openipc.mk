@@ -30,11 +30,11 @@ FFMPEG_OPENIPC_CONF_OPTS = \
   --enable-swresample \
   --enable-avfilter \
   --disable-encoders \
-  --disable-decoders --enable-decoder=h264,hevc \
-  --disable-muxers --enable-muxer=flv,rtsp \
-  --disable-demuxers --enable-demuxer=h264,rtsp \
+  --disable-decoders --enable-decoder=h264,hevc,pcm_s16be,pcm_s16le \
+  --disable-muxers --enable-muxer=flv,rtsp,pcm_s16be,pcm_s16le \
+  --disable-demuxers --enable-demuxer=h264,rtsp,pcm_s16be,pcm_s16le \
   --disable-parsers --enable-parser=h264,hevc \
-  --disable-protocols --enable-protocol=file,rtmp,tcp \
+  --disable-protocols --enable-protocol=file,rtmp,tcp,rtsp,udp,http \
   --disable-programs --enable-ffmpeg --enable-small \
   --enable-gpl \
 	--enable-libx264 \
