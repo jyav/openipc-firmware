@@ -21,7 +21,8 @@ endef
 # Hook this injection to run immediately after the 0001 and 0002 patches are applied
 BARESIP_OPENIPC_POST_PATCH_HOOKS += BARESIP_OPENIPC_INJECT_AUPIPE
 
-BARESIP_OPENIPC_DEPENDENCIES = libre-openipc mbedtls-openipc webrtc-audio-processing-openipc mosquitto ffmpeg-openipc alsa-lib libv4l
+BARESIP_OPENIPC_DEPENDENCIES = libre-openipc mbedtls-openipc webrtc-audio-processing-openipc mosquitto ffmpeg-openipc 
+# removed: alsa-lib libv4l
 
 BARESIP_OPENIPC_CONF_OPTS = \
     -DCMAKE_BUILD_TYPE=Release \
