@@ -30,15 +30,15 @@ FFMPEG_OPENIPC_CONF_OPTS = \
   --enable-swresample \
   --enable-avfilter \
   --disable-encoders \
-  --disable-decoders --enable-decoder=h264,hevc,pcm_s16be,pcm_s16le \
-  --disable-muxers --enable-muxer=flv,rtsp,pcm_s16be,pcm_s16le \
-  --disable-demuxers --enable-demuxer=h264,rtsp,pcm_s16be,pcm_s16le \
-  --disable-parsers --enable-parser=h264,hevc \
+  --disable-decoders --enable-decoder=h264,hevc,pcm_s16be,pcm_s16le,opus,aac,pcm_alaw,pcm_ulaw \
+  --disable-muxers --enable-muxer=flv,rtsp,pcm_s16be,pcm_s16le,pcm_alaw,pcm_ulaw,mp4 \
+  --disable-demuxers --enable-demuxer=h264,hevc,rtsp,pcm_s16be,pcm_s16le,pcm_alaw,pcm_ulaw,aac,opus,flv,mpegts \
+  --disable-parsers --enable-parser=h264,hevc,aac,opus,mpegaudio \
   --disable-protocols --enable-protocol=file,rtmp,tcp,rtsp,udp,http \
   --disable-programs --enable-ffmpeg --enable-small \
   --enable-gpl \
-	--enable-libx264 \
-	--enable-encoder=libx264
+  --enable-libx264 \
+  --enable-encoder=libx264
 
 FFMPEG_OPENIPC_DEPENDENCIES += host-pkgconf x264
 
