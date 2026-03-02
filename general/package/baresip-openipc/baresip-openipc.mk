@@ -21,17 +21,18 @@ endef
 # Hook this injection to run immediately after the 0001 and 0002 patches are applied
 BARESIP_OPENIPC_POST_PATCH_HOOKS += BARESIP_OPENIPC_INJECT_AUPIPE
 
-BARESIP_OPENIPC_DEPENDENCIES = libre-openipc mbedtls-openipc webrtc-audio-processing-openipc mosquitto ffmpeg-openipc 
-# removed: alsa-lib libv4l
+BARESIP_OPENIPC_DEPENDENCIES = libre-openipc mbedtls-openipc webrtc-audio-processing-openipc mosquitto ffmpeg-openipc alsa-lib
 
 BARESIP_OPENIPC_CONF_OPTS = \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_C_FLAGS_RELEASE="-DNDEBUG -s" \
-    -DUSE_MBEDTLS=ON \
-    -DWEBRTC_AEC_INCLUDE_DIR=$(WEBRTC_AUDIO_PROCESSING_OPENIPC_DIR) \
-    -DMOSQUITTO_INCLUDE_DIR=$(MOSQUITTO_DIR) \
-    -DAPP_MODULES_DIR=app_modules \
-    -DAPP_MODULES="aupipe"
+	-DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_C_FLAGS_RELEASE="-DNDEBUG -s" \
+	-DUSE_MBEDTLS=ON \
+	-DWEBRTC_AEC_INCLUDE_DIR=$(WEBRTC_AUDIO_PROCESSING_OPENIPC_DIR) \
+	-DMOSQUITTO_INCLUDE_DIR=$(MOSQUITTO_DIR) \
+	-DAPP_MODULES_DIR=app_modules \
+	-DAPP_MODULES="aupipe" \
+	-DMODULE_alsa=ON \
+	-DMODULE_webrtc_aec=ON
 
 define BARESIP_OPENIPC_INSTALL_CONF
 	$(INSTALL) -m 755 -d $(TARGET_DIR)/etc/init.d
