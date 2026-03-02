@@ -32,9 +32,9 @@ FFMPEG_OPENIPC_CONF_OPTS = \
   --disable-encoders \
   --disable-decoders --enable-decoder=h264,hevc,pcm_s16be,pcm_s16le,opus,aac,pcm_alaw,pcm_ulaw \
   --disable-muxers --enable-muxer=flv,rtsp,pcm_s16be,pcm_s16le,pcm_alaw,pcm_ulaw,mp4 \
-  --disable-demuxers --enable-demuxer=h264,hevc,rtsp,pcm_s16be,pcm_s16le,pcm_alaw,pcm_ulaw,aac,opus,flv,mpegts \
-  --disable-parsers --enable-parser=h264,hevc,aac,opus,mpegaudio \
-  --disable-protocols --enable-protocol=file,rtmp,tcp,rtsp,udp,http \
+  --disable-demuxers --enable-demuxer=h264,hevc,rtsp,sdp,rtp,pcm_s16be,pcm_s16le,pcm_alaw,pcm_ulaw,aac,opus,flv,mpegts \
+	--disable-parsers --enable-parser=h264,hevc,aac,opus,mpegaudio \
+	--disable-protocols --enable-protocol=file,rtmp,tcp,rtsp,udp,http,rtp \
   --disable-programs --enable-ffmpeg --enable-small \
   --enable-gpl \
   --enable-libx264 \
