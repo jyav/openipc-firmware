@@ -37,6 +37,8 @@ define BARESIP_OPENIPC_INJECT_IAD_MODULES
 	echo 'install(TARGETS ausrc_iad DESTINATION lib/baresip/modules)' >> $(@D)/app_modules/ausrc_iad/CMakeLists.txt
 endef
 
+BARESIP_OPENIPC_POST_PATCH_HOOKS += BARESIP_OPENIPC_INJECT_IAD_MODULES
+
 BARESIP_OPENIPC_DEPENDENCIES = libre-openipc mbedtls-openipc webrtc-audio-processing-openipc mosquitto ffmpeg-openipc alsa-lib
 
 BARESIP_OPENIPC_CONF_OPTS = \
