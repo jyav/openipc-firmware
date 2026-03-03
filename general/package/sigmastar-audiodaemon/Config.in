@@ -1,1 +1,5 @@
-
+config BR2_PACKAGE_SIGMASTAR_AUDIODAEMON
+    bool "sigmastar-audiodaemon"
+    help
+      Native SigmaStar MI audio daemon for zero-latency 2-way intercom.
+      https://github.com/jyav/sigmastar-audiodaemon
