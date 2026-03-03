@@ -21,6 +21,22 @@ endef
 # Hook this injection to run immediately after the 0001 and 0002 patches are applied
 BARESIP_OPENIPC_POST_PATCH_HOOKS += BARESIP_OPENIPC_INJECT_AUPIPE
 
+define BARESIP_OPENIPC_INJECT_IAD_MODULES
+	# Inject auplay_iad
+	mkdir -p $(@D)/app_modules/auplay_iad
+	cp $(BARESIP_OPENIPC_PKGDIR)/files/auplay_iad.c $(@D)/app_modules/auplay_iad/
+	echo 'add_library(auplay_iad MODULE auplay_iad.c)' > $(@D)/app_modules/auplay_iad/CMakeLists.txt
+	echo 'target_include_directories(auplay_iad PRIVATE $${CMAKE_SOURCE_DIR}/include)' >> $(@D)/app_modules/auplay_iad/CMakeLists.txt
+	echo 'install(TARGETS auplay_iad DESTINATION lib/baresip/modules)' >> $(@D)/app_modules/auplay_iad/CMakeLists.txt
+
+	# Inject ausrc_iad
+	mkdir -p $(@D)/app_modules/ausrc_iad
+	cp $(BARESIP_OPENIPC_PKGDIR)/files/ausrc_iad.c $(@D)/app_modules/ausrc_iad/
+	echo 'add_library(ausrc_iad MODULE ausrc_iad.c)' > $(@D)/app_modules/ausrc_iad/CMakeLists.txt
+	echo 'target_include_directories(ausrc_iad PRIVATE $${CMAKE_SOURCE_DIR}/include)' >> $(@D)/app_modules/ausrc_iad/CMakeLists.txt
+	echo 'install(TARGETS ausrc_iad DESTINATION lib/baresip/modules)' >> $(@D)/app_modules/ausrc_iad/CMakeLists.txt
+endef
+
 BARESIP_OPENIPC_DEPENDENCIES = libre-openipc mbedtls-openipc webrtc-audio-processing-openipc mosquitto ffmpeg-openipc alsa-lib
 
 BARESIP_OPENIPC_CONF_OPTS = \
@@ -30,7 +46,7 @@ BARESIP_OPENIPC_CONF_OPTS = \
 	-DWEBRTC_AEC_INCLUDE_DIR=$(WEBRTC_AUDIO_PROCESSING_OPENIPC_DIR) \
 	-DMOSQUITTO_INCLUDE_DIR=$(MOSQUITTO_DIR) \
 	-DAPP_MODULES_DIR=app_modules \
-	-DAPP_MODULES="aupipe" \
+	-DAPP_MODULES="aupipe;auplay_iad;ausrc_iad" \
 	-DMODULE_alsa=ON \
 	-DMODULE_webrtc_aec=ON
 
