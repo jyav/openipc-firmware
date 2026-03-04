@@ -13,7 +13,9 @@ SIGMASTAR_AUDIODAEMON_DEPENDENCIES = sigmastar-osdrv-infinity6c cjson
 # Buildroot passes TARGET_CONFIGURE_OPTS, which automatically injects the correct 
 # cross-compiler (CC) and sets the sysroot to point to the staging directory.
 define SIGMASTAR_AUDIODAEMON_BUILD_CMDS
-    $(MAKE) $(TARGET_CONFIGURE_OPTS) -C $(@D)
+    $(MAKE) $(TARGET_CONFIGURE_OPTS) \
+		CFLAGS="$(TARGET_CFLAGS) -I$(STAGING_DIR)/usr/include -I$(STAGING_DIR)/usr/include/sigmastar" \
+		-C $(@D)
 endef
 
 define SIGMASTAR_AUDIODAEMON_INSTALL_TARGET_CMDS
