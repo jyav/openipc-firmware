@@ -5,6 +5,7 @@
 #include <sys/un.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <string.h> // Added for memset and strncpy
 
 struct ausrc_st {
     int sockfd;
@@ -16,15 +17,18 @@ struct ausrc_st {
 
 static void *ausrc_thread(void *arg) {
     struct ausrc_st *st = arg;
-    int16_t sampv[320]; // Read 20ms chunks
+    int16_t sampv[320]; 
 
     while (st->run) {
-        // Block until the daemon DMA pushes 16kHz audio
         ssize_t n = recv(st->sockfd, sampv, sizeof(sampv), MSG_WAITALL);
         
         if (n == sizeof(sampv)) {
-            // Push raw mono PCM to Baresip's SIP encoder
-            st->rh(sampv, n / sizeof(int16_t), st->arg);
+            // Encapsulate raw PCM buffer into the expected Baresip auframe struct
+            struct auframe af;
+            auframe_init(&af, AUFMT_S16LE, sampv, n / sizeof(int16_t), 16000, 1);
+            
+            // Push structured auframe to Baresip's SIP encoder
+            st->rh(&af, st->arg);
         } else if (n <= 0) {
             warning("ausrc_iad: socket read failed/EOF\n");
             break;
@@ -40,16 +44,16 @@ static void ausrc_destruct(void *arg) {
     pthread_join(st->thread, NULL);
 }
 
-static int ausrc_alloc(struct ausrc_st **stp, const struct ausrc *as,
-                       struct ausrc_prm *prm, const char *device,
-                       ausrc_read_h *rh, ausrc_error_h *errh, void *arg) {
+// Renamed to avoid colliding with Baresip's global ausrc_alloc declaration
+static int iad_ausrc_alloc(struct ausrc_st **stp, const struct ausrc *as,
+                           struct ausrc_prm *prm, const char *device,
+                           ausrc_read_h *rh, ausrc_error_h *errh, void *arg) {
     struct ausrc_st *st;
     struct sockaddr_un addr;
     int err = 0;
 
     if (!stp || !as || !prm || !rh) return EINVAL;
 
-    // Force constraints
     prm->srate = 16000;
     prm->ch    = 1;
     prm->fmt   = AUFMT_S16LE;
@@ -61,7 +65,6 @@ static int ausrc_alloc(struct ausrc_st **stp, const struct ausrc *as,
     st->arg = arg;
     st->run = true;
 
-    // Connect to the SigmaStar AI Socket
     st->sockfd = socket(AF_UNIX, SOCK_STREAM, 0);
     memset(&addr, 0, sizeof(addr));
     addr.sun_family = AF_UNIX;
@@ -86,7 +89,7 @@ static int ausrc_alloc(struct ausrc_st **stp, const struct ausrc *as,
 static struct ausrc *ausrc = NULL;
 
 static int module_init(void) {
-    return ausrc_register(&ausrc, baresip_ausrcl(), "iad", ausrc_alloc);
+    return ausrc_register(&ausrc, baresip_ausrcl(), "iad", iad_ausrc_alloc);
 }
 
 static int module_close(void) {
