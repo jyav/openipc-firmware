@@ -14,7 +14,8 @@ SIGMASTAR_AUDIODAEMON_DEPENDENCIES = sigmastar-osdrv-infinity6c cjson
 # cross-compiler (CC) and sets the sysroot to point to the staging directory.
 define SIGMASTAR_AUDIODAEMON_BUILD_CMDS
     $(MAKE) $(TARGET_CONFIGURE_OPTS) \
-		CFLAGS="$(TARGET_CFLAGS) -I$(STAGING_DIR)/usr/include -I$(STAGING_DIR)/usr/include/sigmastar" \
+		CFLAGS="$(TARGET_CFLAGS) -I$(STAGING_DIR)/usr/include -I$(STAGING_DIR)/usr/include/sigmastar -I$(STAGING_DIR)/usr/include/cjson" \
+ 		-C $(@D)
 		-C $(@D)
 endef
 
