@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <string.h> // Added for memset and strncpy
+#include <errno.h>
 
 struct ausrc_st {
     int sockfd;
